@@ -273,6 +273,7 @@ void traverse_proc_pid(vector<netstat>& whole_list){
                                     }
                                     whole_list.at(i).command = cmdline;
                                     whole_list.at(i).pid = atoi(pid.c_str());
+                                    fclose(fd);
                                 }
                             }
                         }
