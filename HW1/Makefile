@@ -13,4 +13,7 @@ debug: hw1.cpp
 	$(SUDO) chmod $(MODFLAGS) hw1
 
 clean:
+	rm -f hw1
+
+clean-debug:
 	$(SUDO) rm -f hw1
