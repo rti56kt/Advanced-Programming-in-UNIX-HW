@@ -7,7 +7,6 @@
 #include <string.h>
 #include <getopt.h>
 #include <unistd.h>
-#include <algorithm>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <arpa/inet.h>
@@ -72,11 +71,13 @@ argstruct arg_parse(int argc, char* argv[]){
         }
     }
 
-    if(optind != (argc-1) && optind != argc){
+    if(optind == (argc-1)){
+        argset.filter = argv[optind];
+    }else if(optind == argc){
+        argset.filter = NULL;
+    }else{
         usage(argv[0]);
         exit(EXIT_FAILURE);
-    }else{
-        argset.filter = argv[optind];
     }
 
     if(!argset.tcp && !argset.udp){
@@ -287,24 +288,20 @@ void traverse_proc_pid(vector<netstat>& whole_list){
     return;
 }
 
-bool filter(string filter_pattern, string command){
-    regex_t reg;
+bool filter(regex_t &reg, string command){
     regmatch_t pmatch[1];
 
-    regcomp(&reg, filter_pattern.c_str(), REG_EXTENDED);
-
-    if(regexec(&reg, command.c_str(), 1, pmatch, 0) == 0){
-        regfree(&reg);
-        return true;
-    }else{
-        regfree(&reg);
-        return false;
-    }
+    if(regexec(&reg, command.c_str(), 1, pmatch, 0) == 0) return true;
+    else return false;
 }
 
 void output(argstruct argset, vector<netstat>& whole_list){
     bool tcp_title_isprint = false;
     bool udp_title_isprint = false;
+    regex_t reg;
+
+    if(argset.filter) regcomp(&reg, argset.filter, REG_EXTENDED);
+
     for(uint i = 0; i < whole_list.size(); i++){
         char outputmsg[1024] = "\0";
         string local_addr_port = whole_list.at(i).local_addr + ":" + to_string(whole_list.at(i).local_port);
@@ -319,7 +316,7 @@ void output(argstruct argset, vector<netstat>& whole_list){
                 tcp_title_isprint = true;
             }
             if(argset.filter){
-                if(filter(argset.filter, whole_list.at(i).command)){
+                if(filter(reg, whole_list.at(i).command)){
                     sprintf(outputmsg, "%-6s%-24s%-24s%s", whole_list.at(i).protocol.c_str(), local_addr_port.c_str(), remote_addr_port.c_str(), pid_cmd.c_str());
                     printf("%s\n", outputmsg);
                 }
@@ -336,7 +333,7 @@ void output(argstruct argset, vector<netstat>& whole_list){
                 udp_title_isprint = true;
             }
             if(argset.filter){
-                if(filter(argset.filter, whole_list.at(i).command)){
+                if(filter(reg, whole_list.at(i).command)){
                     sprintf(outputmsg, "%-6s%-24s%-24s%s", whole_list.at(i).protocol.c_str(), local_addr_port.c_str(), remote_addr_port.c_str(), pid_cmd.c_str());
                     printf("%s\n", outputmsg);
                 }
@@ -346,6 +343,7 @@ void output(argstruct argset, vector<netstat>& whole_list){
             }
         }
     }
+    if(argset.filter) regfree(&reg);
 }
 
 int main(int argc, char* argv[]){
