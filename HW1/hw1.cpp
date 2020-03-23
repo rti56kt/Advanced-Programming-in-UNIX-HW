@@ -195,10 +195,13 @@ void traverse_proc_pid(vector<netstat>& whole_list){
     struct dirent* proc_direntp;
     DIR* proc_dir = opendir("/proc");
     regex_t reg;
+    regex_t reg2;
     regmatch_t pmatch[2];
     const char* pattern = "^socket\\:\\[([0-9]+)\\]";
+    const char* pattern2 = "^\\[0000\\]\\:([0-9]+)";
 
     regcomp(&reg, pattern, REG_EXTENDED);
+    regcomp(&reg2, pattern2, REG_EXTENDED);
 
     if(!proc_dir){
         fprintf(stderr, "Cannot open \"/proc\"!\n");
@@ -231,7 +234,7 @@ void traverse_proc_pid(vector<netstat>& whole_list){
                     char target_path[32] = "\0";
 
                     if(readlink(fd_link_path.c_str(), target_path, sizeof(target_path)-1) != -1){
-                        if(regexec(&reg, target_path, 2, pmatch, 0) == 0){
+                        if(regexec(&reg, target_path, 2, pmatch, 0) == 0 || regexec(&reg2, target_path, 2, pmatch, 0) == 0){
                             char inode[pmatch[1].rm_eo - pmatch[1].rm_so + 1] = "\0";
                             strncpy(inode, target_path + pmatch[1].rm_so, pmatch[1].rm_eo - pmatch[1].rm_so);
 
@@ -341,6 +344,19 @@ void output(argstruct argset, vector<netstat>& whole_list){
                 sprintf(outputmsg, "%-6s%-24s%-24s%s", whole_list.at(i).protocol.c_str(), local_addr_port.c_str(), remote_addr_port.c_str(), pid_cmd.c_str());
                 printf("%s\n", outputmsg);
             }
+        }
+    }
+    if(!whole_list.size()){
+        if(argset.tcp){
+            printf("List of TCP connections:\n");
+            printf("Proto Local Address           Foreign Address         PID/Program name and arguments\n");
+            tcp_title_isprint = true;
+        }
+        if(argset.udp){
+            if(tcp_title_isprint) printf("\n");
+            printf("List of UDP connections:\n");
+            printf("Proto Local Address           Foreign Address         PID/Program name and arguments\n");
+            udp_title_isprint = true;
         }
     }
     if(argset.filter) regfree(&reg);
