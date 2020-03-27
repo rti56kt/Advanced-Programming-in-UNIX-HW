@@ -307,9 +307,14 @@ void output(argstruct argset, vector<netstat>& whole_list){
 
     for(uint i = 0; i < whole_list.size(); i++){
         char outputmsg[1024] = "\0";
-        string local_addr_port = whole_list.at(i).local_addr + ":" + to_string(whole_list.at(i).local_port);
-        string remote_addr_port = whole_list.at(i).remote_addr + ":" + to_string(whole_list.at(i).remote_port);
+        string local_addr_port = whole_list.at(i).local_addr + ":";
+        string remote_addr_port = whole_list.at(i).remote_addr + ":";
         string pid_cmd = to_string(whole_list.at(i).pid) + "/" + whole_list.at(i).command;
+
+        if(whole_list.at(i).local_port == 0) local_addr_port = local_addr_port + "*";
+        else local_addr_port = local_addr_port + to_string(whole_list.at(i).local_port);
+        if(whole_list.at(i).remote_port == 0) remote_addr_port = remote_addr_port + "*";
+        else remote_addr_port = remote_addr_port + to_string(whole_list.at(i).remote_port);
 
         if(pid_cmd == "0/") pid_cmd = "-";
         if(argset.tcp && (whole_list.at(i).protocol == "tcp" || whole_list.at(i).protocol == "tcp6")){
