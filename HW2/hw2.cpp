@@ -101,16 +101,6 @@ int main(int argc, char* argv[]){
         // printf("%d , %s\n", i, cmd_arg[i]);
     }
 
-    // char sopath[12+strlen(argset.sopath)] = "LD_PRELOAD=";
-    // char basedir[9+strlen(argset.basedir)] = "BASEDIR=";
-    // strcat(sopath, argset.sopath);
-    // strcat(basedir, argset.basedir);
-
-    // char* env[1] = {NULL};
-    // char* env[3] = {sopath, basedir, NULL};
-
-    // printf("%s, %s\n", sopath, basedir);
-
     setenv("LD_PRELOAD", argset.sopath, 0);
     setenv("BASEDIR", argset.basedir, 0);
     execvp(cmd_arg[0], cmd_arg);
