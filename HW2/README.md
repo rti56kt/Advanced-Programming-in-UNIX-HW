@@ -32,7 +32,7 @@ If an invalid access is detected, your program has to output an error message to
 * \[10%\] Use Makefile to manage the building process of your program. We will not grade your program if we cannot use make command to build your program.
 * \[30%\] A sandboxed executable can work as usual. Your program cannot change the behavior of a sandboxed executable if the accesses are in the allowed base directory and its subdirectories.
 * \[30%\] Implement file/directory-relevant functions listed in the requirements.
-* \[20%\] Implement system and exec* functions listed in the requirements.
+* \[20%\] Implement `system` and `exec*` functions listed in the requirements.
 * \[10%\] Display error messages.
 
 ## Hints
