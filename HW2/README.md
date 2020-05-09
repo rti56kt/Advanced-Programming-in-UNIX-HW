@@ -25,7 +25,7 @@ You have to compile your source codes and generate 1) the shared object and 2) t
 
 ## Output Messages
 
-If an invalid access is detected, your program has to output an error message to indicate the error. If an access to an invalid path is detected, please show the target pathname and the corresponding operation. If the use of `system` or `exec\*` is rejected, please also show the function name and the command line (for `system`) or the executable name (for `exec\*`).
+If an invalid access is detected, your program has to output an error message to indicate the error. If an access to an invalid path is detected, please show the target pathname and the corresponding operation. If the use of `system` or `exec*` is rejected, please also show the function name and the command line (for `system`) or the executable name (for `exec*`).
 
 ## Grading Policy
 
