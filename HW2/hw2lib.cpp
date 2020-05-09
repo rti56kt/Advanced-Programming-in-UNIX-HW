@@ -45,7 +45,6 @@ int check_valid_path(const char *path){
     char* token;
     string path_concat;
     vector<string> fullpath;
-    // printf("%s\n", path);
 
     strcpy(tmp_path, path);
     if(tmp_path[0] == '/') fullpath.push_back("");
@@ -55,21 +54,27 @@ int check_valid_path(const char *path){
         token = strtok(NULL, "/");
     }
     if(fullpath.at(0) == "~"){
-        token = strtok(getenv("HOME"), "/");
+        char envvar[1024];
+        strcpy(envvar, getenv("HOME"));
+        token = strtok(envvar, "/");
         for(int i = 0; token != NULL; i++){
             fullpath.insert(fullpath.begin()+i, token);
             token = strtok(NULL, "/");
             if(token == NULL) fullpath.erase(fullpath.begin()+i+1);
         }
     }else if(fullpath.at(0) == "." || (fullpath.at(0) != "" && fullpath.at(0) != "..")){
-        token = strtok(getenv("PWD"), "/");
+        char envvar[1024];
+        getcwd(envvar, 1024);
+        token = strtok(envvar, "/");
         for(int i = 0; token != NULL; i++){
             fullpath.insert(fullpath.begin()+i, token);
             token = strtok(NULL, "/");
             if(token == NULL) fullpath.erase(fullpath.begin()+i+1);
         }
     }else if(fullpath.at(0) == ".."){
-        token = strtok(getenv("PWD"), "/");
+        char envvar[1024];
+        getcwd(envvar, 1024);
+        token = strtok(envvar, "/");
         for(int i = 0; token != NULL; i++){
             fullpath.insert(fullpath.begin()+i, token);
             token = strtok(NULL, "/");
@@ -84,7 +89,6 @@ int check_valid_path(const char *path){
         if((*it) == "."){
             fullpath.erase(del);
         }else if((*it) == ".."){
-            printf("im\n");
             fullpath.erase(del);
             del = it--;
             fullpath.erase(del);
@@ -100,8 +104,6 @@ int check_valid_path(const char *path){
 
     strcpy(tmp_path, path_concat.c_str());
     basedir = getenv("BASEDIR");
-
-    // printf("%s , %s\n", tmp_path, basedir);
     if(strstr(tmp_path, basedir) == NULL){
         return -1;
     }else{
