@@ -129,7 +129,7 @@ int chdir(const char *path){
     if(check_valid_path(path) != 0){
         print_err(1, "chdir", path);
         // fprintf(stderr, "[sandbox] chdir: access to %s not allowed\n", path);
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -142,7 +142,7 @@ int chmod(const char *pathname, mode_t mode){
     if(check_valid_path(pathname) != 0){
         print_err(1, "chmod", pathname);
         // fprintf(stderr, "[sandbox] chmod: access to %s not allowed\n", pathname);
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -155,7 +155,7 @@ int chown(const char *pathname, uid_t owner, gid_t group){
     if(check_valid_path(pathname) != 0){
         print_err(1, "chown", pathname);
         // fprintf(stderr, "[sandbox] chown: access to %s not allowed\n", pathname);
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -168,7 +168,7 @@ int creat(const char *pathname, mode_t mode){
     if(check_valid_path(pathname) != 0){
         print_err(1, "creat", pathname);
         // fprintf(stderr, "[sandbox] creat: access to %s not allowed\n", pathname);
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -181,7 +181,7 @@ int creat64(const char *pathname, mode_t mode){
     if(check_valid_path(pathname) != 0){
         print_err(1, "creat64", pathname);
         // fprintf(stderr, "[sandbox] creat64: access to %s not allowed\n", pathname);
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -233,7 +233,7 @@ int link(const char *oldpath, const char *newpath){
         err = true;
     }
     if(err){
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -246,7 +246,7 @@ int mkdir(const char *pathname, mode_t mode){
     if(check_valid_path(pathname) != 0){
         print_err(1, "mkdir", pathname);
         // fprintf(stderr, "[sandbox] mkdir: access to %s not allowed\n", pathname);
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -259,7 +259,7 @@ int open(const char *pathname, int flags, ...){
     if(check_valid_path(pathname) != 0){
         print_err(1, "open", pathname);
         // fprintf(stderr, "[sandbox] open: access to %s not allowed\n", pathname);
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -274,7 +274,7 @@ int open64(const char *pathname, int flags, ...){
     if(check_valid_path(pathname) != 0){
         print_err(1, "open64", pathname);
         // fprintf(stderr, "[sandbox] open64: access to %s not allowed\n", pathname);
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -289,7 +289,7 @@ int openat(int dirfd, const char *pathname, int flags,...){
     if(check_valid_path(pathname) != 0){
         print_err(1, "openat", pathname);
         // fprintf(stderr, "[sandbox] openat: access to %s not allowed\n", pathname);
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -304,7 +304,7 @@ int openat64(int dirfd, const char *pathname, int flags, ...){
     if(check_valid_path(pathname) != 0){
         print_err(1, "openat64", pathname);
         // fprintf(stderr, "[sandbox] openat64: access to %s not allowed\n", pathname);
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -319,7 +319,7 @@ DIR *opendir(const char *name){
     if(check_valid_path(name) != 0){
         print_err(1, "opendir", name);
         // fprintf(stderr, "[sandbox] opendir: access to %s not allowed\n", name);
-        errno = EFAULT;
+        errno = EACCES;
         return NULL;
     }
 
@@ -332,7 +332,7 @@ ssize_t readlink(const char *pathname, char *buf, size_t bufsiz){
     if(check_valid_path(pathname) != 0){
         print_err(1, "readlink", pathname);
         // fprintf(stderr, "[sandbox] readlink: access to %s not allowed\n", pathname);
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -345,7 +345,7 @@ int remove(const char *pathname){
     if(check_valid_path(pathname) != 0){
         print_err(1, "remove", pathname);
         // fprintf(stderr, "[sandbox] remove: access to %s not allowed\n", pathname);
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -367,7 +367,7 @@ int rename(const char *oldpath, const char *newpath){
         err = true;
     }
     if(err){
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -380,7 +380,7 @@ int rmdir(const char *pathname){
     if(check_valid_path(pathname) != 0){
         print_err(1, "rmdir", pathname);
         // fprintf(stderr, "[sandbox] rmdir: access to %s not allowed\n", pathname);
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -393,7 +393,7 @@ int __xstat(int __ver, const char *__filename, struct stat *__stat_buf){
     if(check_valid_path(__filename) != 0){
         print_err(1, "__xstat", __filename);
         // fprintf(stderr, "[sandbox] __xstat: access to %s not allowed\n", __filename);
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -406,7 +406,7 @@ int __xstat64(int __ver, const char *__filename, struct stat64 *__stat_buf){
     if(check_valid_path(__filename) != 0){
         print_err(1, "__xstat64", __filename);
         // fprintf(stderr, "[sandbox] __xstat64: access to %s not allowed\n", __filename);
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -428,7 +428,7 @@ int symlink(const char *target, const char *linkpath){
         err = true;
     }
     if(err){
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -441,7 +441,7 @@ int unlink(const char *pathname){
     if(check_valid_path(pathname) != 0){
         print_err(1, "unlink", pathname);
         // fprintf(stderr, "[sandbox] unlink: access to %s not allowed\n", pathname);
-        errno = EFAULT;
+        errno = EACCES;
         return -1;
     }
 
@@ -454,48 +454,48 @@ int unlink(const char *pathname){
 int execl(const char *path, const char *arg, ...){
     print_err(0, "execl", path);
     // fprintf(stderr, "[sandbox] execl(%s): not allowed\n", path);
-    errno = EFAULT;
+    errno = EACCES;
     return -1;
 }
 
 int execlp(const char *file, const char *arg, ...){
     print_err(0, "execlp", file);
     // fprintf(stderr, "[sandbox] execlp(%s): not allowed\n", file);
-    errno = EFAULT;
+    errno = EACCES;
     return -1;
 }
 
 int execle(const char *path, const char *arg, ...){
     print_err(0, "execle", path);
     // fprintf(stderr, "[sandbox] execle(%s): not allowed\n", path);
-    errno = EFAULT;
+    errno = EACCES;
     return -1;
 }
 
 int execv(const char *path, char *const argv[]){
     print_err(0, "execv", path);
     // fprintf(stderr, "[sandbox] execv(%s): not allowed\n", path);
-    errno = EFAULT;
+    errno = EACCES;
     return -1;
 }
 
 int execvp(const char *file, char *const argv[]){
     print_err(0, "execvp", file);
     // fprintf(stderr, "[sandbox] execvp(%s): not allowed\n", file);
-    errno = EFAULT;
+    errno = EACCES;
     return -1;
 }
 
 int execve(const char *path, char *const argv[], char *const envp[]){
     print_err(0, "execve", path);
     // fprintf(stderr, "[sandbox] execve(%s): not allowed\n", path);
-    errno = EFAULT;
+    errno = EACCES;
     return -1;
 }
 
 int system(const char *command){
     print_err(0, "system", command);
     // fprintf(stderr, "[sandbox] system(%s): not allowed\n", command);
-    errno = EFAULT;
+    errno = EACCES;
     return -1;
 }

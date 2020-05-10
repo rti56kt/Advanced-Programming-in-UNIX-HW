@@ -29,6 +29,11 @@ void usage(char* progname){
 void arg_parse(int argc, char* argv[]){
     int c;
 
+    if(argc == 1){
+        usage(argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
     while((c = getopt(argc, argv, "p:d:")) != -1) {
         switch(c) {
             case 'p':

@@ -29,11 +29,11 @@ If an invalid access is detected, your program has to output an error message to
 
 ## Grading Policy
 
-* \[10%\] Use Makefile to manage the building process of your program. We will not grade your program if we cannot use make command to build your program.
-* \[30%\] A sandboxed executable can work as usual. Your program cannot change the behavior of a sandboxed executable if the accesses are in the allowed base directory and its subdirectories.
-* \[30%\] Implement file/directory-relevant functions listed in the requirements.
-* \[20%\] Implement `system` and `exec*` functions listed in the requirements.
-* \[10%\] Display error messages.
+* [10%] Use Makefile to manage the building process of your program. We will not grade your program if we cannot use make command to build your program.
+* [30%] A sandboxed executable can work as usual. Your program cannot change the behavior of a sandboxed executable if the accesses are in the allowed base directory and its subdirectories.
+* [30%] Implement file/directory-relevant functions listed in the requirements.
+* [20%] Implement `system` and `exec*` functions listed in the requirements.
+* [10%] Display error messages.
 
 ## Hints
 
@@ -49,3 +49,16 @@ Some hints that may simplify your work:
 8. You may use ltrace command to check what library functions are called by a program.
 
 ## Development Note
+
+### Usage
+
+```
+usage: ./sandbox [-p sopath] [-d basedir] [--] cmd [cmd args ...]
+        -p: set the path to sandbox.so, default = ./sandbox.so
+        -d: the base directory that is allowed to access, default = .
+        --: separate the arguments for sandbox and for the executed command
+```
+
+### Return value of injected function
+
+If the function try to access invalid directory, the **return value** of function will be `-1` or `NULL`, and set **errno** to `EACCES`.
