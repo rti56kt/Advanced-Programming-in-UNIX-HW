@@ -1,0 +1,4 @@
+mov al, 0x20
+xor al, [0x600000]
+mov [0x600001], al
+done:
