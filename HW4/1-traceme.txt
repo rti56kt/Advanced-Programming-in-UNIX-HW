@@ -1,0 +1,74 @@
+(pwn)  ~/Advanced-Programming-in-UNIX-HW/HW4   master  gdb -q traceme
+Reading symbols from traceme...
+(No debugging symbols found in traceme)
+(gdb) b main
+Breakpoint 1 at 0x828
+(gdb) run
+Starting program: /home/nicholasli/Advanced-Programming-in-UNIX-HW/HW4/traceme
+
+Breakpoint 1, 0x0000000008000828 in main ()
+(gdb) disas
+Dump of assembler code for function main:
+   0x0000000008000824 <+0>:     push   %rbp
+   0x0000000008000825 <+1>:     mov    %rsp,%rbp
+=> 0x0000000008000828 <+4>:     sub    $0x70,%rsp
+   0x000000000800082c <+8>:     mov    %edi,-0x64(%rbp)
+   0x000000000800082f <+11>:    mov    %rsi,-0x70(%rbp)
+   0x0000000008000833 <+15>:    mov    %fs:0x28,%rax
+   0x000000000800083c <+24>:    mov    %rax,-0x8(%rbp)
+   0x0000000008000840 <+28>:    xor    %eax,%eax
+   0x0000000008000842 <+30>:    lea    -0x5f(%rip),%rsi        # 0x80007ea <handler>
+   0x0000000008000849 <+37>:    mov    $0x5,%edi
+   0x000000000800084e <+42>:    callq  0x8000650 <signal@plt>
+   0x0000000008000853 <+47>:    mov    $0x5,%edi
+   0x0000000008000858 <+52>:    callq  0x8000620 <raise@plt>
+   0x000000000800085d <+57>:    lea    0x112(%rip),%rdi        # 0x8000976
+   0x0000000008000864 <+64>:    callq  0x8000630 <puts@plt>
+   0x0000000008000869 <+69>:    movl   $0x0,-0x54(%rbp)
+   0x0000000008000870 <+76>:    jmp    0x80008a5 <main+129>
+   0x0000000008000872 <+78>:    mov    -0x54(%rbp),%eax
+   0x0000000008000875 <+81>:    mov    %eax,%edi
+   0x0000000008000877 <+83>:    callq  0x800078a <f>
+   0x000000000800087c <+88>:    add    $0x539,%eax
+   0x0000000008000881 <+93>:    movslq %eax,%rdx
+   0x0000000008000884 <+96>:    lea    0x200795(%rip),%rax        # 0x8201020 <data>
+   0x000000000800088b <+103>:   movzbl (%rdx,%rax,1),%eax
+   0x000000000800088f <+107>:   mov    %eax,%ecx
+   0x0000000008000891 <+109>:   mov    -0x54(%rbp),%eax
+   0x0000000008000894 <+112>:   movslq %eax,%rdx
+   0x0000000008000897 <+115>:   lea    0x2012e2(%rip),%rax        # 0x8201b80 <output>
+   0x000000000800089e <+122>:   mov    %cl,(%rdx,%rax,1)
+   0x00000000080008a1 <+125>:   addl   $0x1,-0x54(%rbp)
+   0x00000000080008a5 <+129>:   cmpl   $0x24,-0x54(%rbp)
+   0x00000000080008a9 <+133>:   jle    0x8000872 <main+78>
+   0x00000000080008ab <+135>:   mov    -0x54(%rbp),%eax
+   0x00000000080008ae <+138>:   movslq %eax,%rdx
+   0x00000000080008b1 <+141>:   lea    0x2012c8(%rip),%rax        # 0x8201b80 <output>
+   0x00000000080008b8 <+148>:   movb   $0x0,(%rdx,%rax,1)
+   0x00000000080008bc <+152>:   mov    $0x0,%eax
+   0x00000000080008c1 <+157>:   mov    -0x8(%rbp),%rcx
+   0x00000000080008c5 <+161>:   xor    %fs:0x28,%rcx
+   0x00000000080008ce <+170>:   je     0x80008d5 <main+177>
+   0x00000000080008d0 <+172>:   callq  0x8000640 <__stack_chk_fail@plt>
+   0x00000000080008d5 <+177>:   leaveq
+--Type <RET> for more, q to quit, c to continue without paging--q
+Quit
+(gdb) b *0x80008ce
+Breakpoint 2 at 0x80008ce
+(gdb) c
+Continuing.
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+__GI_raise (sig=<optimized out>) at ../sysdeps/unix/sysv/linux/raise.c:50
+50      ../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
+(gdb) c
+Continuing.
+traced
+
+Breakpoint 2, 0x00000000080008ce in main ()
+(gdb) p (char*)0x8201b80
+$1 = 0x8201b80 <output> "ASM{a_Pr0ce55_can_b_trac3d_0n1Y_0nc3}"
+(gdb) c
+Continuing.
+[Inferior 1 (process 5082) exited normally]
+(gdb) quit
