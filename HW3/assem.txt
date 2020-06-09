@@ -1,0 +1,670 @@
+2500
+addsub1:
+        eax = 0x360ef4de
+        eax = eax + 0x7254cea9
+        eax = eax - 0x8c4200b2
+======
+======
+Enter your codes: (type 'done:' when done)
+mov eax, 0x360ef4de
+add eax, 0x7254cea9
+sub eax, 0x8c4200b2
+done:
+======
+eax = 0x1c21c2d5 (== 0x1c21c2d5)
+*** correct
+*** FLAG: ASM{12d30a57b6fd8c9779eb4d64428fb064653a7e00}
+======
+RAX: 0x1c21c2d5    RBX: 0x0           RCX: 0x0           RDX: 0x0
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2501
+addsub2:
+        final = val1 + val2 - val3
+======
+      val1 @ 0x600000-600004
+      val2 @ 0x600004-600008
+      val3 @ 0x600008-60000c
+     final @ 0x60000c-600010
+======
+Enter your codes: (type 'done:' when done)
+mov eax, [0x600000]
+add eax, [0x600004]
+sub eax, [0x600008]
+mov [0x60000c], eax
+done:
+======
+final = 0xddacbe1f (== 0xddacbe1f)
+*** correct
+*** FLAG: ASM{9f4b9cc948960da32302135229f622472f7d8713}
+======
+RAX: 0xddacbe1f    RBX: 0x0           RCX: 0x0           RDX: 0x0
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2502
+bubble: bubble sort for 10 integers
+======
+      a[0] @ 0x600000-600004
+      a[1] @ 0x600004-600008
+      a[2] @ 0x600008-60000c
+      a[3] @ 0x60000c-600010
+      a[4] @ 0x600010-600014
+      a[5] @ 0x600014-600018
+      a[6] @ 0x600018-60001c
+      a[7] @ 0x60001c-600020
+      a[8] @ 0x600020-600024
+      a[9] @ 0x600024-600028
+======
+Enter your codes: (type 'done:' when done)
+mov dx, 9
+
+OuterLoop:
+mov cx, 9
+lea esi, [0x600000]
+
+InnerLoop:
+mov eax, [esi]
+cmp eax, [esi+4]
+jl NoNeedChg
+xchg eax, [esi+4]
+mov [esi], eax
+
+NoNeedChg:
+add esi, 4
+loop InnerLoop
+
+dec dx
+jnz OuterLoop
+done:
+======
+a[0] = 0x6d (== 0x6d)
+a[1] = 0x16c (== 0x16c)
+a[2] = 0x1cf (== 0x1cf)
+a[3] = 0x248 (== 0x248)
+a[4] = 0x266 (== 0x266)
+a[5] = 0x270 (== 0x270)
+a[6] = 0x28f (== 0x28f)
+a[7] = 0x349 (== 0x349)
+a[8] = 0x37c (== 0x37c)
+a[9] = 0x3d8 (== 0x3d8)
+*** correct
+*** FLAG: ASM{ed11e3273e0a8845d42afa3f901074df13e12d0e}
+======
+RAX: 0x37c         RBX: 0x0           RCX: 0x0           RDX: 0x0
+RDI: 0x0           RSI: 0x600024      RBP: 0x0           RSP: 0xa00000
+
+
+2503
+clear17: clear bit-17 in eax (zero-based index)
+======
+======
+Enter your codes: (type 'done:' when done)
+and eax, 0xfffdffff
+done:
+======
+eax = 0x22781a09 (== 0x22781a09)
+*** correct
+*** FLAG: ASM{495071da9e7398c46f7b924f4038a597d3952314}
+======
+RAX: 0x22781a09    RBX: 0x0           RCX: 0x0           RDX: 0x0
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2504
+dec2ascii: convert the value (0-9) in AL to its ASCII character
+======
+======
+Enter your codes: (type 'done:' when done)
+add al, '0'
+done:
+======
+al = 0x31 (== 0x31)
+*** correct
+*** FLAG: ASM{067d91cabbe48ae0d378b9f06e09a3f5dd19f192}
+======
+RAX: 0x31          RBX: 0x0           RCX: 0x0           RDX: 0x0
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2505
+dispbin:
+        given a number in AX, store the corresponding bit string in str1.
+        for example, if AX = 0x1234, the result should be:
+        str1 = 0001001000111000
+======
+      str1 @ 0x600000-600014
+======
+Enter your codes: (type 'done:' when done)
+mov cx, 16
+mov r8, 15
+mov r9, 2
+
+L:
+div r9
+cmp dx, 0
+je L1
+mov byte ptr [0x600000+r8], '1'
+jmp Common
+
+L1:
+mov byte ptr [0x600000+r8], '0'
+
+Common:
+dec r8
+loop L
+done:
+======
+str1 = b'1100000000110111\x00\x00\x00\x00' (== b'1100000000110111\x00\x00\x00\x00')
+*** correct
+*** FLAG: ASM{7cd0546f6f0ab256514c5426156e0642a0c5ec08}
+======
+RAX: 0x806e000000000000RBX: 0x0           RCX: 0x0           RDX: 0x1
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2506
+eval1:
+        Rval = -Xval + (Yval – Zval)
+======
+      Xval @ 0x600000-600004
+      Yval @ 0x600004-600008
+      Zval @ 0x600008-60000c
+      Rval @ 0x60000c-600010
+======
+Enter your codes: (type 'done:' when done)
+mov eax, [0x600004]
+sub eax, [0x600008]
+sub eax, [0x600000]
+mov [0x60000c], eax
+done:
+======
+Rval = 0xa7e7106b (== 0xa7e7106b)
+*** correct
+*** FLAG: ASM{e683b6b39c904540bf724e1e8a8e9ef030f01e29}
+======
+RAX: 0xa7e7106b    RBX: 0x0           RCX: 0x0           RDX: 0x0
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2507
+isolatebit:
+        get the value bit-11 ~ bit-5 in AX and store the result in val1
+        (zero-based bit index)
+======
+      val1 @ 0x600000-600001
+      val2 @ 0x600001-600002
+======
+Enter your codes: (type 'done:' when done)
+shr ax, 5
+and ax, 0x7f
+mov [0x600000], al
+done:
+======
+val1 = 0x68 (== 0x68)
+val2 = 0xf4 (== 0xf4)
+*** correct
+*** FLAG: ASM{c68c96817b844512055b5aa636fc71eba803a77c}
+======
+RAX: 0x68          RBX: 0x5d0f        RCX: 0x0           RDX: 0x0
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2508
+leax:
+        eax = edi * 2
+        ebx = edi * 3
+        ecx = edi * 5
+        edx = edi * 9
+======
+======
+Enter your codes: (type 'done:' when done)
+lea eax, [edi*2]
+lea ebx, [edi*2+edi]
+lea ecx, [edi*4+edi]
+lea edx, [edi*8+edi]
+done:
+======
+eax = 0xe1a047d0 (== 0xe1a047d0)
+ebx = 0x52706bb8 (== 0x52706bb8)
+ecx = 0x3410b388 (== 0x3410b388)
+edx = 0xf7514328 (== 0xf7514328)
+*** correct
+*** FLAG: ASM{4dcff917b5e26def74682294894946603a1e6b6b}
+======
+RAX: 0xe1a047d0    RBX: 0x52706bb8    RCX: 0x3410b388    RDX: 0xf7514328
+RDI: 0x70d023e8    RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2509
+loop15:
+        str1 is a string contains 15 lowercase and uppercase alphbets.
+        implement a loop to convert all alplabets to lowercase,
+        and store the result in str2.
+======
+      str1 @ 0x600000-600010
+      str2 @ 0x600010-600020
+======
+Enter your codes: (type 'done:' when done)
+mov cx, 15
+mov r8, 0
+
+L:
+mov al, byte ptr [0x600000+r8]
+or al, 0b100000
+mov byte ptr [0x600010+r8], al
+inc r8
+loop L
+done:
+======
+str2 = b'poqndddnfqmnmec\x00' (== b'poqndddnfqmnmec\x00')
+*** correct
+*** FLAG: ASM{44f8c5d95bfc5a2cebf28e8a0016bf0c898e42b7}
+======
+RAX: 0x63          RBX: 0x0           RCX: 0x0           RDX: 0x0
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2510
+math1: unsigned arithmetic
+        var4 = (var1 + var2) * var3
+======
+      var1 @ 0x600000-600004
+      var2 @ 0x600004-600008
+      var3 @ 0x600008-60000c
+      var4 @ 0x60000c-600010
+======
+Enter your codes: (type 'done:' when done)
+mov eax, [0x600000]
+add eax, [0x600004]
+mul dword ptr [0x600008]
+mov [0x60000c], eax
+done:
+======
+var1 = 0x505b4c4d (== 0x505b4c4d)
+var2 = 0x12e0d2f1 (== 0x12e0d2f1)
+var3 = 0x6141a23a (== 0x6141a23a)
+var4 = 0xf422500c (== 0xf422500c)
+*** correct
+*** FLAG: ASM{329d6b2d2b60dbe275c2fadfab47326ec7ce8032}
+======
+RAX: 0xf422500c    RBX: 0x0           RCX: 0x0           RDX: 0x25b338fc
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2511
+math2: signed arithmetic
+        eax = (-var1 * var2) + var3
+======
+      var1 @ 0x600000-600004
+      var2 @ 0x600004-600008
+      var3 @ 0x600008-60000c
+======
+Enter your codes: (type 'done:' when done)
+mov eax, -1
+imul dword ptr [0x600000]
+imul dword ptr [0x600004]
+add eax, [0x600008]
+done:
+======
+var1 = 0x56098b9e (== 0x56098b9e)
+var2 = 0x359f35fc (== 0x359f35fc)
+var3 = 0x4d526011 (== 0x4d526011)
+eax = 0x34e33a89 (== 0x34e33a89)
+*** correct
+*** FLAG: ASM{a12829814c0c3681044eaf4fee319c66994e2fda}
+======
+RAX: 0x34e33a89    RBX: 0x0           RCX: 0x0           RDX: 0xedfa8405
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2512
+math3: 32-bit unsigned arithmetic
+        var4 = (var1 * 5) / (var2 - 3)
+        note: overflowed part should be truncated
+======
+      var1 @ 0x600000-600004
+      var2 @ 0x600004-600008
+      var4 @ 0x600008-60000c
+======
+Enter your codes: (type 'done:' when done)
+mov ebx, [0x600000]
+lea eax, [ebx*4+ebx]
+mov ebx, [0x600004]
+sub ebx, 3
+idiv ebx
+mov [0x600008], eax
+done:
+======
+var1 = 0x5362d024 (== 0x5362d024)
+var2 = 0x1980557f (== 0x1980557f)
+var4 = 0x6 (== 0x6)
+*** correct
+*** FLAG: ASM{29fefc836582fc2520b7c1943a4f222d13c867bd}
+======
+RAX: 0x6           RBX: 0x1980557c    RCX: 0x0           RDX: 0x7ec0fcc
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2513
+math4: 32-bit signed arithmetic
+        var4 = (var1 * -5) / (-var2 % var3)
+        note: overflowed part should be truncated
+======
+      var1 @ 0x600000-600004
+      var2 @ 0x600004-600008
+      var3 @ 0x600008-60000c
+      var4 @ 0x60000c-600010
+======
+Enter your codes: (type 'done:' when done)
+mov eax, -1
+imul dword ptr [0x600004]
+idiv dword ptr [0x600008]
+mov [0x60000c], edx
+mov eax, -5
+imul dword ptr [0x600000]
+cdq
+idiv dword ptr [0x60000c]
+mov dword ptr [0x60000c], eax
+done:
+======
+var1 = 0x3b9e70ea (== 0x3b9e70ea)
+var2 = 0x3168b514 (== 0x3168b514)
+var3 = 0x65064145 (== 0x65064145)
+var4 = 0x0 (== 0x0)
+*** correct
+*** FLAG: ASM{5df848046cc0a617a07df92cc063abe6eb9fab33}
+======
+RAX: 0x0           RBX: 0x0           RCX: 0x0           RDX: 0xd5e7cb6e
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2514
+math5: 32-bit signed arithmetic
+        var3 = (var1 * -var2) / (var3 - ebx)
+        note: overflowed part should be truncated
+======
+      var1 @ 0x600000-600004
+      var2 @ 0x600004-600008
+      var3 @ 0x600008-60000c
+======
+Enter your codes: (type 'done:' when done)
+sub [0x600008], ebx
+mov eax, -1
+imul dword ptr [0x600004]
+imul dword ptr [0x600000]
+cdq
+idiv dword ptr [0x600008]
+mov dword ptr [0x600008], eax
+done:
+======
+var1 = 0x27248e54 (== 0x27248e54)
+var2 = 0x154fcb29 (== 0x154fcb29)
+var3 = 0x0 (== 0x0)
+*** correct
+*** FLAG: ASM{d094846539de42b83a8c47494e8ad906f4642340}
+======
+RAX: 0x0           RBX: 0x532e6903    RCX: 0x0           RDX: 0xee5c988c
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2515
+minicall: implement a minimal function call in the emulator
+===== THE CODE
+    call   a
+    jmp    exit
+
+a:  ; function a - read ret-addr in RAX
+    pop    RAX
+    push   RAX
+    ret
+exit:
+======
+======
+Enter your codes: (type 'done:' when done)
+    call   a
+    jmp    exit
+
+a:  ; function a - read ret-addr in RAX
+    pop    RAX
+    push   RAX
+    ret
+exit:
+done:
+======
+eax = 0x400005 (== 0x400005)
+*** correct
+*** FLAG: ASM{6a409552c7451c41c5e961cc5a9af9ced510ce98}
+======
+RAX: 0x400005      RBX: 0x0           RCX: 0x0           RDX: 0x0
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2516
+mulbyshift: multiply val1 by 26 and store the result in val2
+======
+      val1 @ 0x600000-600004
+      val2 @ 0x600004-600008
+======
+Enter your codes: (type 'done:' when done)
+mov eax, [0x600000]
+shl eax, 1
+mov ebx, eax
+shl eax, 2
+add ebx, eax
+shl eax, 1
+add ebx, eax
+mov [0x600004], ebx
+done:
+======
+val1 = 0xaeb3 (== 0xaeb3)
+val2 = 0x11be2e (== 0x11be2e)
+*** correct
+*** FLAG: ASM{34b9caa05654006ec6a14db1a60ea145b2689b20}
+======
+RAX: 0xaeb30       RBX: 0x11be2e      RCX: 0x0           RDX: 0x0
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2517
+posneg: test if registers are positive or negative.
+        if ( eax >= 0 ) { var1 = 1 } else { var1 = -1 }
+        if ( ebx >= 0 ) { var2 = 1 } else { var2 = -1 }
+        if ( ecx >= 0 ) { var3 = 1 } else { var3 = -1 }
+        if ( edx >= 0 ) { var4 = 1 } else { var4 = -1 }
+======
+      var1 @ 0x600000-600004
+      var2 @ 0x600004-600008
+      var3 @ 0x600008-60000c
+      var4 @ 0x60000c-600010
+======
+Enter your codes: (type 'done:' when done)
+cmp eax, 0
+jge L1
+jmp L2
+
+L1:
+mov dword ptr [0x600000], 1
+jmp L3
+
+L2:
+mov dword ptr [0x600000], -1
+
+L3:
+cmp ebx, 0
+jge L4
+jmp L5
+
+L4:
+mov dword ptr [0x600004], 1
+jmp L6
+
+L5:
+mov dword ptr [0x600004], -1
+
+L6:
+cmp ecx, 0
+jge L7
+jmp L8
+
+L7:
+mov dword ptr [0x600008], 1
+jmp L9
+
+L8:
+mov dword ptr [0x600008], -1
+
+L9:
+cmp edx, 0
+jge L10
+jmp L11
+
+L10:
+mov dword ptr [0x60000c], 1
+jmp L12
+
+L11:
+mov dword ptr [0x60000c], -1
+
+L12:
+done:
+======
+var1 = 0x1 (== 0x1)
+var2 = 0xffffffff (== 0xffffffff)
+var3 = 0x1 (== 0x1)
+var4 = 0xffffffff (== 0xffffffff)
+*** correct
+*** FLAG: ASM{4a637ac9bd775a6f7ac8c15290a7bae3c5f492e1}
+======
+RAX: 0x1ae4676a    RBX: 0xe8951a1a    RCX: 0x5ad4cfaa    RDX: 0xe72429d3
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2518
+recur: implement a recursive function
+
+   r(n) = 0, if n <= 0
+        = 1, if n == 1
+        = 2*r(n-1) + 3*r(n-2), otherwise
+
+   please call r(19) and store the result in RAX
+======
+======
+Enter your codes: (type 'done:' when done)
+mov rcx, 19
+mov r8, 2
+mov r9, 3
+call R
+jmp Exit
+
+R:
+cmp rcx, 1
+jg Recur
+jl Case1
+mov rax, 1
+jmp ExitFunc
+
+Case1:
+mov rax, 0
+jmp ExitFunc
+
+Recur:
+dec rcx
+push rcx
+call R
+mul r8
+pop rcx
+push rax
+dec rcx
+call R
+mul r9
+pop rdx
+add rax, rdx
+
+ExitFunc:
+ret
+Exit:
+done:
+======
+rax = 0x1151acf7 (== 0x1151acf7)
+*** correct
+*** FLAG: ASM{432ea21a5fc13ac8e625fa2d22ae02745289a4d8}
+======
+RAX: 0x1151acf7    RBX: 0x0           RCX: 0x1           RDX: 0xb8bc8a4
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2519
+swapmem: swap the values in val1 and val2
+======
+      val1 @ 0x600000-600008
+      val2 @ 0x600008-600010
+======
+Enter your codes: (type 'done:' when done)
+mov rax, [0x600000]
+xchg rax, [0x600008]
+mov [0x600000], rax
+done:
+======
+val1 = 0xd8a10589 (== 0xd8a10589)
+val2 = 0x55dfb39b (== 0x55dfb39b)
+*** correct
+*** FLAG: ASM{bfc6b67fad445d161d540cfd75a5f57bbabb31ea}
+======
+RAX: 0xd8a10589    RBX: 0x0           RCX: 0x0           RDX: 0x0
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2520
+swapreg: swap the values in RAX and RBX
+======
+======
+Enter your codes: (type 'done:' when done)
+xchg rax, rbx
+done:
+======
+rax = 0xd2e8a547 (== 0xd2e8a547)
+rbx = 0x7807ebac (== 0x7807ebac)
+*** correct
+*** FLAG: ASM{534a511af0ecbeb0f7f367a81d416d27749c2642}
+======
+RAX: 0xd2e8a547    RBX: 0x7807ebac    RCX: 0x0           RDX: 0x0
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2521
+tolower: convert the single character in val1 to uppercase and store in val2
+======
+      val1 @ 0x600000-600001
+      val2 @ 0x600001-600002
+======
+Enter your codes: (type 'done:' when done)
+mov al, 0x20
+xor al, [0x600000]
+mov [0x600001], al
+done:
+======
+val1 = 0x7a (== 0x7a)
+val2 = 0x5a (== 0x5a)
+*** correct
+*** FLAG: ASM{a2ae0dfc6e3d5f1a32bdc8bc9a12382a2c8fbb8b}
+======
+RAX: 0x5a          RBX: 0x0           RCX: 0x0           RDX: 0x0
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
+
+
+2522
+ul+lu: convert the alphabet in CH from upper to lower or from lower to upper
+======
+======
+Enter your codes: (type 'done:' when done)
+xor ch, 0x20
+done:
+======
+ch = 0x48 (== 0x48)
+*** correct
+*** FLAG: ASM{8c9f0650d45e9a8cf1a0c6696f486025e30005ad}
+======
+RAX: 0x0           RBX: 0x0           RCX: 0x4800        RDX: 0x0
+RDI: 0x0           RSI: 0x0           RBP: 0x0           RSP: 0xa00000
