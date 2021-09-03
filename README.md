@@ -1,4 +1,7 @@
-# Advanced-Programming-in-UNIX-HW
+# NCTU Advanced Programming in UNIX
 
-HW of Advanced-Programming-in-UNIX<br>
-Spring, 2020 @ NCTU
+[Fall'20] NCTU CS - Advanced Programming in UNIX Projects
+
+### Author
+
+[Nicholas Li](https://github.com/rti56kt)
